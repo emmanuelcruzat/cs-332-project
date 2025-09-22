@@ -1,0 +1,89 @@
+Received process info: PID=1, Burst Time=3s
+Process 1 started with burst time: 3s
+Process 1 completed in burst time: 3s
+Received process info: PID=2, Burst Time=7s
+Process 2 started with burst time: 7s
+Received process info: PID=3, Burst Time=3s
+Received process info: PID=4, Burst Time=19s
+Received process info: PID=5, Burst Time=9s
+Received process info: PID=6, Burst Time=7s
+Process 2 completed in burst time: 7s
+Process 3 started with burst time: 3s
+Received process info: PID=7, Burst Time=6s
+Received process info: PID=8, Burst Time=9s
+Process 3 completed in burst time: 3s
+Process 4 started with burst time: 19s
+Received process info: PID=9, Burst Time=1s
+Received process info: PID=10, Burst Time=1s
+Received process info: PID=11, Burst Time=4s
+Received process info: PID=12, Burst Time=5s
+Received process info: PID=13, Burst Time=1s
+Received process info: PID=14, Burst Time=5s
+Received process info: PID=15, Burst Time=3s
+Received process info: PID=16, Burst Time=1s
+Process 4 completed in burst time: 19s
+Process 5 started with burst time: 9s
+Received process info: PID=17, Burst Time=7s
+Received process info: PID=18, Burst Time=1s
+Received process info: PID=19, Burst Time=2s
+Received process info: PID=20, Burst Time=1s
+Received process info: PID=21, Burst Time=7s
+Process 5 completed in burst time: 9s
+Process 6 started with burst time: 7s
+Received process info: PID=22, Burst Time=3s
+Received process info: PID=23, Burst Time=2s
+Process 6 completed in burst time: 7s
+Process 7 started with burst time: 6s
+Received process info: PID=24, Burst Time=1s
+Received process info: PID=25, Burst Time=5s
+Process 7 completed in burst time: 6s
+Process 8 started with burst time: 9s
+Received process info: PID=26, Burst Time=6s
+Received process info: PID=27, Burst Time=3s
+Received process info: PID=28, Burst Time=1s
+Received process info: PID=29, Burst Time=8s
+Simulator has stopped sending processes
+Process 8 completed in burst time: 9s
+Process 9 started with burst time: 1s
+Process 9 completed in burst time: 1s
+Process 10 started with burst time: 1s
+Process 10 completed in burst time: 1s
+Process 11 started with burst time: 4s
+Process 11 completed in burst time: 4s
+Process 12 started with burst time: 5s
+Process 12 completed in burst time: 5s
+Process 13 started with burst time: 1s
+Process 13 completed in burst time: 1s
+Process 14 started with burst time: 5s
+Process 14 completed in burst time: 5s
+Process 15 started with burst time: 3s
+Process 15 completed in burst time: 3s
+Process 16 started with burst time: 1s
+Process 16 completed in burst time: 1s
+Process 17 started with burst time: 7s
+Process 17 completed in burst time: 7s
+Process 18 started with burst time: 1s
+Process 18 completed in burst time: 1s
+Process 19 started with burst time: 2s
+Process 19 completed in burst time: 2s
+Process 20 started with burst time: 1s
+Process 20 completed in burst time: 1s
+Process 21 started with burst time: 7s
+Process 21 completed in burst time: 7s
+Process 22 started with burst time: 3s
+Process 22 completed in burst time: 3s
+Process 23 started with burst time: 2s
+Process 23 completed in burst time: 2s
+Process 24 started with burst time: 1s
+Process 24 completed in burst time: 1s
+Process 25 started with burst time: 5s
+Process 25 completed in burst time: 5s
+Process 26 started with burst time: 6s
+Process 26 completed in burst time: 6s
+Process 27 started with burst time: 3s
+Process 27 completed in burst time: 3s
+Process 28 started with burst time: 1s
+Process 28 completed in burst time: 1s
+Process 29 started with burst time: 8s
+Process 29 completed in burst time: 8s
+All processes have been handled
