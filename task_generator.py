@@ -13,8 +13,11 @@ def send_process_info(client_socket, pid, burst_time):
     print(f"Sent process info: {process_info}")
 
 def main():
-    average_tasks_per_minute = float(input("Enter average tasks per minute: "))
-    average_burst_time = float(input("Enter average burst time: "))
+    #average_tasks_per_minute = float(input("Enter average tasks per minute: "))
+    #average_burst_time = float(input("Enter average burst time: "))
+
+    average_tasks_per_minute = 60.0
+    average_burst_time = 1.0
 
     average_interval = 60.0 / average_tasks_per_minute
 
