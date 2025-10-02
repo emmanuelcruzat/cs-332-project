@@ -9,8 +9,10 @@ class Process:
         self.pid = pid
         self.burst_time = burst_time
 
-    def print_details(self):
-        print(f"({self.pid}, {self.burst_time}) ")
+    def print_details(self, log_file):
+        print(f"({self.pid}, {self.burst_time})")
+        log_file.write(f"({self.pid}, {self.burst_time})\n")
+        log_file.flush()
         
 
 SERVER_IP = "127.0.0.1"
@@ -22,7 +24,7 @@ process_queue = []
 queue_lock = threading.Lock()
 
 
-def scheduler(client_socket):
+def scheduler(client_socket, log_file):
 
     isEnd = False;
     isPid = True;
@@ -62,25 +64,45 @@ def scheduler(client_socket):
         for i in range(len(pid_list)):
             process_queue.append(Process(int(pid_list[i]), int(burst_list[i])))
 
+        print("-----\nCurrent queue:")
+        log_file.write(f"-----\nCurrent queue:\n")
+        log_file.flush()
+        
         for i in range(len(process_queue)):
-            process_queue[i].print_details()
+            process_queue[i].print_details(log_file)
 
         if len(process_queue) > 0:
             front = process_queue.pop(0)
         elif isEnd == True:
             print("IT IS THE END.")
+            log_file.write(f"IT IS THE END.\n")
+            log_file.flush()
             break;
         else:
             print("Didn't detect END")
+            log_file.write(f"Didn't detect END\n")
+            log_file.flush()
+            break;
             break;
 
         print(f"PID = {front.pid}")
+        log_file.write(f"PID = {front.pid}\n")
+        log_file.flush()
+
         print(f"Burst time = {front.burst_time}")
+        log_file.write(f"Burst time = {front.burst_time}\n")
+        log_file.flush()
+
         print(f"Sleeping for = {front.burst_time}s")
+        log_file.write(f"Sleeping for = {front.burst_time}s\n")
+        log_file.flush()
 
         time.sleep(front.burst_time)
 
         print(f"Awoke.")
+
+        log_file.write(f"Awoke.\n")
+        log_file.flush()
 
 # ...
 
@@ -100,7 +122,12 @@ def main():
 
     print("Connected to the server")
 
-    scheduler_thread = threading.Thread(target=scheduler(client_socket))
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_filename = f"fcfs_log_{timestamp}.txt"
+    log_file = open(log_filename, "w")
+
+
+    scheduler_thread = threading.Thread(target=scheduler(client_socket, log_file))
     #shell_thread = threading.Thread(target=shell)
     scheduler_thread.start()
     #shell_thread.start()
@@ -110,7 +137,7 @@ def main():
     #shell_thread.join()
     scheduler_thread.join()
     client_socket.close()
-    # log_file.close()
+    log_file.close()
 
 if __name__ == "__main__":
     main()
