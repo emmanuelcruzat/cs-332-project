@@ -19,10 +19,9 @@ SERVER_IP = "127.0.0.1"
 SERVER_PORT = 12345
 
 pause_flag = threading.Event()
-pause_flag.clear()
+pause_flag.set()
 process_queue = []
 queue_lock = threading.Lock()
-
 
 def scheduler(client_socket, log_file):
 
@@ -94,6 +93,7 @@ def scheduler(client_socket, log_file):
         log_file.flush()
 
         time.sleep(front.burst_time)
+        pause_flag.wait();
 
         print(f"Process {front.pid} completed in burst time: {front.burst_time}")
         log_file.write(f"Process {front.pid} completed in burst time: {front.burst_time}")
@@ -105,7 +105,19 @@ def scheduler(client_socket, log_file):
 
 # ...
 
-#def shell():
+def shell():
+
+    while True:
+        #command input
+        command = input("Enter a command: ")
+        
+        if command == "pause":
+            pause_flag.clear();
+        if command == "continue":
+            pause_flag.set();
+        if command == "list":
+            #display all active processes (not completed processes)
+    
 # ...
 
 def main():
@@ -127,13 +139,13 @@ def main():
 
 
     scheduler_thread = threading.Thread(target=scheduler(client_socket, log_file))
-    #shell_thread = threading.Thread(target=shell)
+    shell_thread = threading.Thread(target=shell)
     scheduler_thread.start()
-    #shell_thread.start()
+    shell_thread.start()
 
     # ...
 
-    #shell_thread.join()
+    shell_thread.join()
     scheduler_thread.join()
     client_socket.close()
     log_file.close()
