@@ -10,8 +10,8 @@ class Process:
         self.burst_time = burst_time
 
     def print_details(self, log_file):
-        print(f"({self.pid}, {self.burst_time})")
-        log_file.write(f"({self.pid}, {self.burst_time})\n")
+        print(f"Received process info: PID={self.pid}, Burst Time={self.burst_time}")
+        log_file.write(f"Received process info: PID={self.pid}, Burst Time={self.burst_time}")
         log_file.flush()
         
 
@@ -42,6 +42,9 @@ def scheduler(client_socket, log_file):
             #print(f"char {char} pid_string {pid_string} burst_string {burst_string}")
             if char == "E":
                 isEnd = True;
+                print("Simulator has stopped sending processes")
+                log_file.write("Simulator has stopped sending processes")
+                log_file.flush()
                 break;
             elif isPid:
                 if char != " ":
@@ -62,47 +65,43 @@ def scheduler(client_socket, log_file):
         #print(f"pid_list={pid_list} burst_list={burst_list}")
         # make new process objects and append to queue
         for i in range(len(pid_list)):
-            process_queue.append(Process(int(pid_list[i]), int(burst_list[i])))
+            newProcess = Process(int(pid_list[i]), int(burst_list[i]))
+            newProcess.print_details(log_file);
+            process_queue.append(newProcess)
 
-        print("-----\nCurrent queue:")
-        log_file.write(f"-----\nCurrent queue:\n")
-        log_file.flush()
+        #print("-----\nCurrent queue:")
+        #log_file.write(f"-----\nCurrent queue:\n")
+        #log_file.flush()
         
-        for i in range(len(process_queue)):
-            process_queue[i].print_details(log_file)
+        #for i in range(len(process_queue)):
+            #process_queue[i].print_details(log_file)
 
         if len(process_queue) > 0:
             front = process_queue.pop(0)
-        elif isEnd == True:
-            print("IT IS THE END.")
-            log_file.write(f"IT IS THE END.\n")
+        elif isEnd:
+            print("All processes have been handled")
+            log_file.write("All processes have been handled")
             log_file.flush()
             break;
-        else:
-            print("Didn't detect END")
-            log_file.write(f"Didn't detect END\n")
-            log_file.flush()
-            break;
-            break;
+        #else:
+            #print("Didn't detect END")
+            #log_file.write(f"Didn't detect END\n")
+            #log_file.flush()
+            #break;
 
-        print(f"PID = {front.pid}")
-        log_file.write(f"PID = {front.pid}\n")
-        log_file.flush()
-
-        print(f"Burst time = {front.burst_time}")
-        log_file.write(f"Burst time = {front.burst_time}\n")
-        log_file.flush()
-
-        print(f"Sleeping for = {front.burst_time}s")
-        log_file.write(f"Sleeping for = {front.burst_time}s\n")
+        print(f"Process {front.pid} started with burst time: {front.burst_time}")
+        log_file.write(f"Process {front.pid} started with burst time: {front.burst_time}")
         log_file.flush()
 
         time.sleep(front.burst_time)
 
-        print(f"Awoke.")
-
-        log_file.write(f"Awoke.\n")
+        print(f"Process {front.pid} completed in burst time: {front.burst_time}")
+        log_file.write(f"Process {front.pid} completed in burst time: {front.burst_time}")
         log_file.flush()
+
+        #print(f"Awoke.")
+        #log_file.write(f"Awoke.\n")
+        #log_file.flush()
 
 # ...
 
