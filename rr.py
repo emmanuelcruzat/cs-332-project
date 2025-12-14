@@ -18,9 +18,10 @@ class Process:
         log_file.flush()
 
 pause_flag = threading.Event()
-pause_flag.clear()
+pause_flag.set()
 process_queue = []
 queue_lock = threading.Lock()
+time_quantum = 0
 
 def scheduler(client_socket, log_file):
     global isEnd
@@ -31,7 +32,6 @@ def scheduler(client_socket, log_file):
 
         pid_string = ""
         burst_string = ""
-
         pid_list = []
         burst_list = []
 
@@ -73,11 +73,15 @@ def scheduler(client_socket, log_file):
         else:
             continue
 
+        pause_flag.wait()
+
         log_file.write(f"Process {front.pid} started with remaining time: {front.remaining_time}\n")
         log_file.flush()
 
         if front.remaining_time <= time_quantum: #if time left is shorter than time slice
             time.sleep(front.remaining_time)
+            log_file.write(f"Process {front.pid} completed in burst time: {front.burst_time}\n")
+            log_file.flush()
         else:                                   #if there is time left over
             time.sleep(time_quantum)
             front.remaining_time -= time_quantum
@@ -86,14 +90,7 @@ def scheduler(client_socket, log_file):
             log_file.write(f"Process {front.pid} exceeded time quantum ({time_quantum}) and will be requeued with remaining time: {front.remaining_time}s\n")
             log_file.flush()
 
-        log_file.write(f"Process {front.pid} completed in burst time: {front.burst_time}\n")
-        log_file.flush()
-
-        pause_flag.wait()
-
 def shell():
-    global time_quantum
-    time_quantum = int(input("How long do you want the time quantum to be: "))
     print(f"Time quantum is set to: {time_quantum}\n")
     print("\nShell interface ready. Commands: pause | continue | list\n")
     while True:
@@ -108,8 +105,9 @@ def shell():
 
 def main():
     global client_socket, isEnd, time_quantum
-    time_quantum = 1
     isEnd = False
+
+    time_quantum = int(input("How long do you want the time quantum to be: "))
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -125,13 +123,10 @@ def main():
     log_filename = f"rr_log_{timestamp}.txt"
     log_file = open(log_filename, "w")
 
-
     scheduler_thread = threading.Thread(target=scheduler, args=(client_socket, log_file))
     shell_thread = threading.Thread(target=shell)
     scheduler_thread.start()
     shell_thread.start()
-
-    # ...
 
     shell_thread.join()
     scheduler_thread.join()
